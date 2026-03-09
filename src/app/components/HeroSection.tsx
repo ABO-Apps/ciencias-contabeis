@@ -10,10 +10,73 @@ export function HeroSection() {
     state: '',
     city: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    setSubmitError(null);
+
+    const webhookUrl = import.meta.env.VITE_GSHEETS_WEBHOOK_URL?.trim();
+    const token = import.meta.env.VITE_GSHEETS_TOKEN?.trim();
+    const sheetName = import.meta.env.VITE_SHEET_NAME?.trim() || 'Leads';
+
+    if (import.meta.env.DEV) {
+      const tokenPreview = token ? `${token.slice(0, 8)}...` : 'missing';
+      console.log('[gsheets] submitting', { webhookUrl, tokenPreview, sheetName });
+    }
+
+    if (!webhookUrl || !token) {
+      const missingVars = [
+        !webhookUrl ? 'VITE_GSHEETS_WEBHOOK_URL' : null,
+        !token ? 'VITE_GSHEETS_TOKEN' : null,
+      ].filter(Boolean).join(', ');
+      setSubmitError(`Configuracao ausente: ${missingVars}.`);
+      return;
+    }
+
+    if (token.startsWith('$2') && !/^\$2[aby]\$\d{2}\$/.test(token)) {
+      setSubmitError('Token invalido no .env. Escape "$" como "\\$" e reinicie o vite.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const payload = new URLSearchParams({
+        token,
+        sheet_name: sheetName,
+        submittedAt: new Date().toISOString(),
+        nome: formData.name,
+        email: formData.email,
+        telefone: formData.phone,
+        estado: formData.state,
+        cidade: formData.city,
+      });
+      const payloadString = payload.toString();
+
+      await fetch(`${webhookUrl}?${payloadString}`, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        },
+        body: payloadString,
+      });
+
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        state: '',
+        city: '',
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Falha ao enviar formulario.';
+      setSubmitError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -171,12 +234,17 @@ export function HeroSection() {
 
                   <motion.button
                     type="submit"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                    whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                    disabled={isSubmitting}
                     className="w-full py-4 bg-gradient-to-r from-pink-500 to-fuchsia-500 hover:from-pink-600 hover:to-fuchsia-600 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-pink-500/30 mt-2"
                   >
-                    Quero saber mais
+                    {isSubmitting ? 'Enviando...' : 'Quero saber mais'}
                   </motion.button>
+
+                  {submitError && (
+                    <p className="text-xs text-red-400 text-center">{submitError}</p>
+                  )}
 
                   <p className="text-xs text-gray-500 text-center">
                     Ao enviar, você concorda em receber informações sobre o curso
