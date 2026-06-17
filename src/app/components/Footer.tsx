@@ -1,9 +1,40 @@
 import { motion } from 'motion/react';
-import { Youtube, Music, Instagram } from 'lucide-react';
+import { Youtube, Music, Instagram, Mail, Phone } from 'lucide-react';
 
 export function Footer() {
+  const socialLinks = [
+    {
+      label: 'YouTube',
+      href: 'https://www.youtube.com/@lucrativamente_podcast',
+      icon: Youtube,
+      hover: 'hover:text-red-500',
+      border: 'group-hover:border-red-500',
+    },
+    {
+      label: 'Instagram Lucrativamente',
+      href: 'https://www.instagram.com/podcastlucrativamente/',
+      icon: Instagram,
+      hover: 'hover:text-pink-500',
+      border: 'group-hover:border-pink-500',
+    },
+    {
+      label: 'TikTok',
+      href: 'https://www.tiktok.com/@podcastlucrativamente',
+      icon: Music,
+      hover: 'hover:text-cyan-400',
+      border: 'group-hover:border-cyan-400',
+    },
+    {
+      label: 'Spotify',
+      href: 'https://open.spotify.com/show/5jl1ppEWrVMcTtyQJdDY3E?si=33a62bd0c4c54b90',
+      icon: Music,
+      hover: 'hover:text-green-500',
+      border: 'group-hover:border-green-500',
+    },
+  ];
+
   return (
-    <footer className="relative bg-black border-t border-gray-800 px-4 py-16 lg:px-8">
+    <footer id="contato" className="relative bg-black border-t border-gray-800 px-4 py-16 lg:px-8 scroll-mt-20">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Logo and Tagline */}
@@ -24,7 +55,7 @@ export function Footer() {
               viewport={{ once: true }}
               className="text-gray-400 max-w-md"
             >
-              Forme-se no curso que transforma números em decisões estratégicas.
+              Formação prática em contabilidade, finanças, gestão e carreira.
             </motion.p>
           </div>
 
@@ -40,33 +71,20 @@ export function Footer() {
               Acompanhe
             </h4>
             <div className="flex flex-col space-y-3">
-              <a
-                href="#"
-                className="flex items-center space-x-3 text-gray-300 hover:text-red-500 transition-colors group"
-              >
-                <div className="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 group-hover:border-red-500 flex items-center justify-center transition-colors">
-                  <Youtube className="w-5 h-5" />
-                </div>
-                <span>YouTube</span>
-              </a>
-              <a
-                href="#"
-                className="flex items-center space-x-3 text-gray-300 hover:text-pink-500 transition-colors group"
-              >
-                <div className="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 group-hover:border-pink-500 flex items-center justify-center transition-colors">
-                  <Music className="w-5 h-5" />
-                </div>
-                <span>Spotify</span>
-              </a>
-              <a
-                href="#"
-                className="flex items-center space-x-3 text-gray-300 hover:text-pink-500 transition-colors group"
-              >
-                <div className="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 group-hover:border-pink-500 flex items-center justify-center transition-colors">
-                  <Instagram className="w-5 h-5" />
-                </div>
-                <span>Instagram</span>
-              </a>
+              {socialLinks.map(({ label, href, icon: Icon, hover, border }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`flex items-center space-x-3 text-gray-300 ${hover} transition-colors group`}
+                >
+                  <div className={`w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 ${border} flex items-center justify-center transition-colors`}>
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <span>{label}</span>
+                </a>
+              ))}
             </div>
           </motion.div>
 
@@ -83,17 +101,31 @@ export function Footer() {
             </h4>
             <div className="flex flex-col space-y-3">
               <a
-                href="#"
+                href="https://www.instagram.com/cienciascontabeis.amf/"
+                target="_blank"
+                rel="noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
               >
-                Curso de Ciências Contábeis AMF
+                Instagram do curso
               </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:text-white transition-colors"
-              >
-                Antonio Meneghetti Faculdade
-              </a>
+              <div className="pt-2 space-y-2 text-gray-400">
+                <p className="font-semibold text-gray-300">Coordenação</p>
+                <p>Profª Ms. Leandra Calegare Meneghetti</p>
+                <a
+                  href="tel:+555532891141"
+                  className="flex items-center gap-2 hover:text-white transition-colors"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span>(55) 3289-1141</span>
+                </a>
+                <a
+                  href="mailto:coordcontabeis@faculdadeam.edu.br"
+                  className="flex items-center gap-2 hover:text-white transition-colors break-all"
+                >
+                  <Mail className="w-4 h-4 shrink-0" />
+                  <span>coordcontabeis@faculdadeam.edu.br</span>
+                </a>
+              </div>
             </div>
           </motion.div>
         </div>

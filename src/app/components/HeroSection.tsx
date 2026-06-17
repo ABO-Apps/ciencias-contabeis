@@ -2,6 +2,11 @@ import { motion } from 'motion/react';
 import { useState } from 'react';
 import { Sparkles } from 'lucide-react';
 
+const brazilianStates = [
+  'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG',
+  'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO',
+];
+
 export function HeroSection() {
   const [formData, setFormData] = useState({
     name: '',
@@ -79,24 +84,20 @@ export function HeroSection() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
-    <section className="min-h-screen flex items-center px-4 py-20 lg:px-8 relative overflow-hidden">
-      {/* Gradient orbs */}
-      <div className="absolute top-20 left-1/4 w-[600px] h-[600px] bg-pink-500/20 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 right-1/4 w-[600px] h-[600px] bg-fuchsia-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-
+    <section id="inicio" className="relative flex min-h-screen items-center overflow-hidden px-4 pb-14 pt-24 sm:pb-20 sm:pt-28 lg:px-8">
       <div className="max-w-7xl mx-auto w-full relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Left Column - Content */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-8"
+            className="space-y-6 sm:space-y-8"
           >
             {/* Badge */}
             <motion.div
@@ -104,51 +105,46 @@ export function HeroSection() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-pink-500/10 border border-pink-500/30 rounded-full backdrop-blur-sm">
-                <Sparkles className="w-4 h-4 text-pink-400" />
-                <span className="text-sm text-pink-300 font-medium">Ciências Contábeis AMF</span>
+              <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-pink-500/30 bg-pink-500/10 px-3 py-2 backdrop-blur-sm sm:px-4">
+                <Sparkles className="h-4 w-4 shrink-0 text-pink-400" />
+                <span className="truncate text-xs font-medium text-pink-300 sm:text-sm">Ciências Contábeis AMF</span>
               </div>
             </motion.div>
 
             {/* Heading */}
             <div className="space-y-6">
               <div className="space-y-2">
-                <p className="text-sm uppercase tracking-widest text-gray-500 font-medium">
+                <p className="text-xs font-medium uppercase tracking-widest text-gray-500 sm:text-sm">
                   Curso de Ciências Contábeis
                 </p>
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-none">
-                  Domine os números e controle seu futuro profissional
+                <h1 className="text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+                  Feito pra te mostrar o mundo da contabilidade
                 </h1>
               </div>
               
-              <p className="text-xl md:text-2xl text-gray-400 leading-relaxed">
-                Formação completa para ser o profissional que empresas procuram: contador estratégico, consultor e tomador de decisões
+              <p className="text-base leading-relaxed text-gray-400 sm:text-xl md:text-2xl">
+                Excelência nas funções de contador, analista e especialista na área contábil.
               </p>
             </div>
 
-            {/* Quote */}
-            <div className="inline-block">
-              <div className="p-6 bg-gradient-to-r from-pink-500/10 to-fuchsia-500/10 border-l-4 border-pink-500 rounded-r-xl backdrop-blur-sm">
-                <p className="text-xl text-white font-semibold">
-                  "Quem domina a contabilidade, domina as decisões estratégicas da empresa."
-                </p>
-              </div>
-            </div>
-
-            {/* Trust indicators */}
-            <div className="flex flex-wrap items-center gap-6 text-gray-400 text-sm pt-4">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-pink-500 rounded-full" />
-                <span>4 anos de formação</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-pink-500 rounded-full" />
-                <span>Corpo docente especializado</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-pink-500 rounded-full" />
-                <span>Mercado aquecido</span>
-              </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                ['Fiscal', 'leis, tributos e segurança'],
+                ['Gestão', 'dados para decidir melhor'],
+                ['Mercado', 'negócios, carreira e prática'],
+              ].map(([title, description]) => (
+                <div
+                  key={title}
+                  className="rounded-xl border border-white/10 bg-white/[0.04] p-3 backdrop-blur-sm transition-colors hover:border-pink-500/30 sm:rounded-2xl sm:p-4"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wider text-pink-300 sm:text-sm">
+                    {title}
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-gray-400 sm:mt-2">
+                    {description}
+                  </p>
+                </div>
+              ))}
             </div>
           </motion.div>
 
@@ -159,77 +155,106 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative p-8 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl">
+            <div id="lead-form" className="relative scroll-mt-24 rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] p-5 shadow-2xl backdrop-blur-xl sm:rounded-3xl sm:p-8">
               {/* Glow effect */}
               <div className="absolute -inset-[1px] bg-gradient-to-r from-pink-500/20 via-fuchsia-500/20 to-pink-500/20 rounded-3xl blur-xl opacity-50" />
               
               <div className="relative">
-                <div className="text-center mb-8 space-y-2">
-                  <h3 className="text-2xl font-bold text-white">
+                <div className="mb-6 space-y-2 text-center sm:mb-8">
+                  <h3 className="text-xl font-bold text-white sm:text-2xl">
                     Interessado em Ciências Contábeis?
                   </h3>
-                  <p className="text-gray-400">
-                    Receba informações sobre carreira e mercado
+                  <p className="text-sm text-gray-400 sm:text-base">
+                    Receba informações do curso e fale com a coordenação
                   </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                   <div>
+                    <label htmlFor="name" className="mb-2 block text-sm font-medium text-gray-300">
+                      Nome completo
+                    </label>
                     <input
+                      id="name"
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="Nome completo"
-                      className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-pink-500/50 focus:ring-2 focus:ring-pink-500/20 backdrop-blur-sm transition-all"
+                      placeholder="Digite seu nome completo"
+                      className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder-gray-300 backdrop-blur-sm transition-all focus:border-pink-500/50 focus:outline-none focus:ring-2 focus:ring-pink-500/20 sm:px-5 sm:py-4"
                       required
                     />
                   </div>
 
                   <div>
+                    <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-300">
+                      Email
+                    </label>
                     <input
+                      id="email"
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="Email"
-                      className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-pink-500/50 focus:ring-2 focus:ring-pink-500/20 backdrop-blur-sm transition-all"
+                      placeholder="seuemail@exemplo.com"
+                      className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder-gray-300 backdrop-blur-sm transition-all focus:border-pink-500/50 focus:outline-none focus:ring-2 focus:ring-pink-500/20 sm:px-5 sm:py-4"
                       required
                     />
                   </div>
 
                   <div>
+                    <label htmlFor="phone" className="mb-2 block text-sm font-medium text-gray-300">
+                      Telefone / WhatsApp
+                    </label>
                     <input
+                      id="phone"
                       type="tel"
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="Telefone / WhatsApp"
-                      className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-pink-500/50 focus:ring-2 focus:ring-pink-500/20 backdrop-blur-sm transition-all"
+                      placeholder="(55) 99999-9999"
+                      className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder-gray-300 backdrop-blur-sm transition-all focus:border-pink-500/50 focus:outline-none focus:ring-2 focus:ring-pink-500/20 sm:px-5 sm:py-4"
                       required
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <input
-                      type="text"
-                      name="state"
-                      value={formData.state}
-                      onChange={handleChange}
-                      placeholder="Estado"
-                      className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-pink-500/50 focus:ring-2 focus:ring-pink-500/20 backdrop-blur-sm transition-all"
-                      required
-                    />
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="state" className="mb-2 block text-sm font-medium text-gray-300">
+                        UF
+                      </label>
+                      <select
+                        id="state"
+                        name="state"
+                        value={formData.state}
+                        onChange={handleChange}
+                        className={`w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 backdrop-blur-sm transition-all focus:border-pink-500/50 focus:outline-none focus:ring-2 focus:ring-pink-500/20 sm:px-5 sm:py-4 ${formData.state ? 'text-white' : 'text-gray-300'}`}
+                        required
+                      >
+                        <option value="" className="bg-gray-950 text-gray-300">Selecione</option>
+                        {brazilianStates.map((state) => (
+                          <option key={state} value={state} className="bg-gray-950 text-white">
+                            {state}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
-                    <input
-                      type="text"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleChange}
-                      placeholder="Cidade"
-                      className="w-full px-5 py-4 bg-black/40 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-pink-500/50 focus:ring-2 focus:ring-pink-500/20 backdrop-blur-sm transition-all"
-                      required
-                    />
+                    <div>
+                      <label htmlFor="city" className="mb-2 block text-sm font-medium text-gray-300">
+                        Cidade
+                      </label>
+                      <input
+                        id="city"
+                        type="text"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        placeholder="Digite sua cidade"
+                        className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder-gray-300 backdrop-blur-sm transition-all focus:border-pink-500/50 focus:outline-none focus:ring-2 focus:ring-pink-500/20 sm:px-5 sm:py-4"
+                        required
+                      />
+                    </div>
                   </div>
 
                   <motion.button
@@ -237,7 +262,7 @@ export function HeroSection() {
                     whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                     whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                     disabled={isSubmitting}
-                    className="w-full py-4 bg-gradient-to-r from-pink-500 to-fuchsia-500 hover:from-pink-600 hover:to-fuchsia-600 text-white rounded-xl font-semibold text-lg transition-all shadow-lg shadow-pink-500/30 mt-2"
+                    className="mt-2 w-full rounded-xl bg-gradient-to-r from-pink-500 to-fuchsia-500 py-3.5 font-semibold text-white shadow-lg shadow-pink-500/30 transition-all hover:from-pink-600 hover:to-fuchsia-600 sm:py-4 sm:text-lg"
                   >
                     {isSubmitting ? 'Enviando...' : 'Quero saber mais'}
                   </motion.button>
@@ -246,7 +271,7 @@ export function HeroSection() {
                     <p className="text-xs text-red-400 text-center">{submitError}</p>
                   )}
 
-                  <p className="text-xs text-gray-500 text-center">
+                  <p className="text-center text-xs text-gray-500">
                     Ao enviar, você concorda em receber informações sobre o curso
                   </p>
                 </form>
@@ -260,7 +285,7 @@ export function HeroSection() {
       <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 sm:block"
       >
         <div className="w-6 h-10 border-2 border-gray-700 rounded-full flex items-start justify-center p-2">
           <div className="w-1 h-2 bg-pink-500 rounded-full" />
